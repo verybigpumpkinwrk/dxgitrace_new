@@ -89,13 +89,19 @@ struct WrapInterfaceTables{
 
 #define MAKE_FUNC_ID(flag, interface, func) (((uint32_t)flag << 30) | ((uint32_t)interface << 8) | ((uint32_t)(func)))
 
+#define GetVTable(pInterface) (*(void**)pInterface)
+
 extern uint32_t CallCounter;
+void PatchvTable(void** pvTable, uint32_t interface_id, uint32_t func_num);
+extern bool vTablePatched[D3D11Interfaces__End];
 
 static inline uint32_t IncrementCounter()
 {
-	return CallCounter++;
+	//return CallCounter++;
+	return InterlockedIncrement(&CallCounter);
 }
 
+#include "d3d11/D3D11SubResourceSize.h"
 
 #include "d3d11/ID3D11Device.h"
 #include "d3d11/ID3D11DeviceContext.h"
@@ -107,11 +113,11 @@ struct WrapInterfaceTables InterfaceAddrTable[/*D3D11Interfaces__End*/] = {
 	NULL, NULL, NULL,
 	NULL, NULL, NULL,
 	NULL, NULL, NULL,
-	ID3D11DeviceOriginalFuncs, ID3D11DeviceSimpleFuncs, NULL,
+	ID3D11DeviceOriginalFuncs, ID3D11DeviceSimpleFuncs, ID3D11DeviceDataFuncs,
 	NULL, NULL, NULL,
 	NULL, NULL, NULL,
 	NULL, NULL, NULL,
 	NULL, NULL, NULL,
 	NULL, NULL, NULL,
-	ID3D11DeviceOriginalFuncs, ID3D11DeviceSimpleFuncs, NULL,
+	ID3D11DeviceContextOriginalFuncs, ID3D11DeviceContextSimpleFuncs, NULL,
 };

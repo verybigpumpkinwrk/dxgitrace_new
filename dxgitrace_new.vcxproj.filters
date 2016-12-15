@@ -18,13 +18,16 @@
     <ClCompile Include="dxgitrace_new.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="file_writer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\build\wrappers\dxgitrace.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Log.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="call_writer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\apitrace\build\wrappers\dxgitrace.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sys_mem_writer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -43,13 +46,13 @@
     <ClInclude Include="wrapd3d11.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\inject\inject_shared_mem.h">
+    <ClInclude Include="Log.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="file_writer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Log.h">
+    <ClInclude Include="d3d11\D3D11SubResourceSize.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

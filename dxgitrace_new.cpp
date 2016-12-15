@@ -2,7 +2,7 @@
 //#include <d3d11_2.h>
 #include <d3d9.h>
 #include "Log.h"
-#include "..\inject\inject_shared_mem.h"
+#include <inject\inject_shared_mem.h>
 #include "wrapd3d11.h"
 
 
@@ -151,11 +151,16 @@ void PatchvTable(void** pvTable, uint32_t interface_id, uint32_t func_num)
 		Log("Error! Failed to change memory protect.");
 		abort();
 	}
-
+	Log("patching interface num: %u", interface_id);
 	for(uint32_t i = 0; i < func_num; i++){
 		if(1){
+			//Log("patching %u vtable: %u", interface_id, i);
 			InterfaceAddrTable[interface_id].TableOriginal[i] = pvTable[i];
-			pvTable[i] = InterfaceAddrTable[interface_id].TableSimple[i];
+			if(InterfaceAddrTable[interface_id].TableData == NULL){
+				pvTable[i] = InterfaceAddrTable[interface_id].TableSimple[i];
+			}else{
+				pvTable[i] = InterfaceAddrTable[interface_id].TableData[i];
+			}
 		}
 	}
 
@@ -177,6 +182,8 @@ extern "C" BOOL __stdcall DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lp
 	switch(fdwReason){
 		case DLL_PROCESS_ATTACH:
 		{
+			char buf[4096];
+
 			if(CfgLoaded == false){
 				HANDLE hMapFile;
 				struct SharedMem* pSharedMem;
@@ -201,13 +208,24 @@ extern "C" BOOL __stdcall DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lp
 				CloseHandle(hMapFile);
 			}
 
-			FileWriter_OpenFile("dxgitrace_new.bin");
+			GetModuleFileNameA(NULL, buf, 4096);
+			*(strchr(buf, 0) - 3) = 0;
+			strcat(buf, "dxgitrace_new.bin");
+
+			CallWriter_OpenFile(buf);
+
+			GetModuleFileNameA(NULL, buf, 4096);
+			*(strchr(buf, 0) - 3) = 0;
+			strcat(buf, "sys_mem.bin");
+
+			SysMemWriter_OpenFile(buf);
 		}
 		break;
 		case DLL_PROCESS_DETACH:
 		{
 
-			FileWriter_CloseFile();
+			CallWriter_CloseFile();
+			SysMemWriter_CloseFile();
 		}
 		break;
 		case DLL_THREAD_ATTACH:
@@ -263,11 +281,11 @@ extern "C" HRESULT __stdcall D3D11CreateDevice(IDXGIAdapter * pAdapter, D3D_DRIV
 
 	hr = _D3D11CreateDevice(pAdapter, DriverType, Software, Flags, pFeatureLevels, FeatureLevels, SDKVersion, ppDevice, pFeatureLevel, ppImmediateContext);
 	if(vTablePatched[ID3D11_Device] == false && ppDevice != NULL){
-		PatchvTable((void**)(*(void**)*ppDevice), ID3D11_Device, ID3D11Device__EnumEnd);
+		PatchvTable((void**)GetVTable(*ppDevice), ID3D11_Device, ID3D11Device__EnumEnd);
 	}
 
 	if(vTablePatched[ID3D11_DeviceContext] == false && ppImmediateContext != NULL){
-		PatchvTable((void**)(*(void**)*ppImmediateContext), ID3D11_DeviceContext, ID3D11DeviceContext__EnumEnd);
+		PatchvTable((void**)GetVTable(*ppImmediateContext), ID3D11_DeviceContext, ID3D11DeviceContext__EnumEnd);
 	}
 
 	return hr;

@@ -88,6 +88,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;DXGITRACE_NEW_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Vasiliy\Desktop\wrk\apitrace;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -118,6 +119,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;DXGITRACE_NEW_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>false</ExceptionHandling>
+      <AdditionalIncludeDirectories>C:\Users\Vasiliy\Desktop\wrk\apitrace;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -145,19 +147,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\build\wrappers\dxgitrace.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    <ClCompile Include="..\apitrace\build\wrappers\dxgitrace.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="dxgitrace_new.cpp" />
-    <ClCompile Include="file_writer.cpp" />
+    <ClCompile Include="call_writer.cpp" />
     <ClCompile Include="Log.cpp" />
+    <ClCompile Include="sys_mem_writer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dxgitrace_new.def" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\inject\inject_shared_mem.h" />
+    <ClInclude Include="d3d11\D3D11SubResourceSize.h" />
     <ClInclude Include="d3d11\ID3D11Device.h" />
     <ClInclude Include="d3d11\ID3D11DeviceContext.h" />
     <ClInclude Include="file_writer.h" />

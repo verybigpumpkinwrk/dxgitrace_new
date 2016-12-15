@@ -1,7 +1,7 @@
 #pragma once
 
 struct func ID3D11DeviceContext_func_table[] = {
-	"QueryInterface", 1,
+	"QueryInterface", 3,
 	"AddRef", 1,
 	"Release", 1,
 	"GetDevice", 2,

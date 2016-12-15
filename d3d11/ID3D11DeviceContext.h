@@ -122,924 +122,925 @@ enum ID3D11DeviceContextFuncs{
 
 static void* ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext__EnumEnd] = { NULL };
 
-static void __stdcall WID3D11DeviceContext_QueryInterface(void* param0)
+#ifndef DXGITRACE_NOSIMPLE
+static void __stdcall WID3D11DeviceContext_QueryInterface(void* param0, void* param1, void* param2)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_QueryInterface));
-	((void (__stdcall *)(void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_QueryInterface])(param0);
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_QueryInterface));
+	((void (__stdcall *)(void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_QueryInterface])(param0, param1, param2);
 }
 
 static void __stdcall WID3D11DeviceContext_AddRef(void* param0)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_AddRef));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_AddRef));
 	((void (__stdcall *)(void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_AddRef])(param0);
 }
 
 static void __stdcall WID3D11DeviceContext_Release(void* param0)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_Release));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_Release));
 	((void (__stdcall *)(void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_Release])(param0);
 }
 
 static void __stdcall WID3D11DeviceContext_GetDevice(void* param0, void* param1)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GetDevice));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GetDevice));
 	((void (__stdcall *)(void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_GetDevice])(param0, param1);
 }
 
 static void __stdcall WID3D11DeviceContext_GetPrivateData(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GetPrivateData));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GetPrivateData));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_GetPrivateData])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_SetPrivateData(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_SetPrivateData));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_SetPrivateData));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_SetPrivateData])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_SetPrivateDataInterface(void* param0, void* param1, void* param2)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_SetPrivateDataInterface));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_SetPrivateDataInterface));
 	((void (__stdcall *)(void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_SetPrivateDataInterface])(param0, param1, param2);
 }
 
 static void __stdcall WID3D11DeviceContext_VSSetConstantBuffers(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_VSSetConstantBuffers));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_VSSetConstantBuffers));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_VSSetConstantBuffers])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_PSSetShaderResources(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_PSSetShaderResources));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_PSSetShaderResources));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_PSSetShaderResources])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_PSSetShader(void* param0, void* param1, void* param2, void* param3)
 {
-	Log("Calling PSSetShader");
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_PSSetShader));
+	//Log("Calling PSSetShader");
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_PSSetShader));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_PSSetShader])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_PSSetSamplers(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_PSSetSamplers));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_PSSetSamplers));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_PSSetSamplers])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_VSSetShader(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_VSSetShader));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_VSSetShader));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_VSSetShader])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_DrawIndexed(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DrawIndexed));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DrawIndexed));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_DrawIndexed])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_Draw(void* param0, void* param1, void* param2)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_Draw));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_Draw));
 	((void (__stdcall *)(void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_Draw])(param0, param1, param2);
 }
 
 static void* __stdcall WID3D11DeviceContext_Map(void* param0, void* param1, void* param2, void* param3, void* param4, void* param5)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_Map));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_Map));
 	return ((void* (__stdcall *)(void*, void*, void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_Map])(param0, param1, param2, param3, param4, param5);
 }
 
 static void __stdcall WID3D11DeviceContext_Unmap(void* param0, void* param1, void* param2)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_Unmap));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_Unmap));
 	((void (__stdcall *)(void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_Unmap])(param0, param1, param2);
 }
 
 static void __stdcall WID3D11DeviceContext_PSSetConstantBuffers(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_PSSetConstantBuffers));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_PSSetConstantBuffers));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_PSSetConstantBuffers])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_IASetInputLayout(void* param0, void* param1)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_IASetInputLayout));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_IASetInputLayout));
 	((void (__stdcall *)(void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_IASetInputLayout])(param0, param1);
 }
 
 static void __stdcall WID3D11DeviceContext_IASetVertexBuffers(void* param0, void* param1, void* param2, void* param3, void* param4, void* param5)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_IASetVertexBuffers));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_IASetVertexBuffers));
 	((void (__stdcall *)(void*, void*, void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_IASetVertexBuffers])(param0, param1, param2, param3, param4, param5);
 }
 
 static void __stdcall WID3D11DeviceContext_IASetIndexBuffer(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_IASetIndexBuffer));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_IASetIndexBuffer));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_IASetIndexBuffer])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_DrawIndexedInstanced(void* param0, void* param1, void* param2, void* param3, void* param4, void* param5)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DrawIndexedInstanced));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DrawIndexedInstanced));
 	((void (__stdcall *)(void*, void*, void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_DrawIndexedInstanced])(param0, param1, param2, param3, param4, param5);
 }
 
 static void __stdcall WID3D11DeviceContext_DrawInstanced(void* param0, void* param1, void* param2, void* param3, void* param4)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DrawInstanced));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DrawInstanced));
 	((void (__stdcall *)(void*, void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_DrawInstanced])(param0, param1, param2, param3, param4);
 }
 
 static void __stdcall WID3D11DeviceContext_GSSetConstantBuffers(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GSSetConstantBuffers));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GSSetConstantBuffers));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_GSSetConstantBuffers])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_GSSetShader(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GSSetShader));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GSSetShader));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_GSSetShader])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_IASetPrimitiveTopology(void* param0, void* param1)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_IASetPrimitiveTopology));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_IASetPrimitiveTopology));
 	((void (__stdcall *)(void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_IASetPrimitiveTopology])(param0, param1);
 }
 
 static void __stdcall WID3D11DeviceContext_VSSetShaderResources(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_VSSetShaderResources));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_VSSetShaderResources));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_VSSetShaderResources])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_VSSetSamplers(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_VSSetSamplers));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_VSSetSamplers));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_VSSetSamplers])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_Begin(void* param0, void* param1)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_Begin));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_Begin));
 	((void (__stdcall *)(void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_Begin])(param0, param1);
 }
 
 static void __stdcall WID3D11DeviceContext_End(void* param0, void* param1)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_End));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_End));
 	((void (__stdcall *)(void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_End])(param0, param1);
 }
 
 static void* __stdcall WID3D11DeviceContext_GetData(void* param0, void* param1, void* param2, void* param3, void* param4)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GetData));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GetData));
 	return ((void* (__stdcall *)(void*, void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_GetData])(param0, param1, param2, param3, param4);
 }
 
 static void __stdcall WID3D11DeviceContext_SetPredication(void* param0, void* param1, void* param2)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_SetPredication));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_SetPredication));
 	((void (__stdcall *)(void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_SetPredication])(param0, param1, param2);
 }
 
 static void __stdcall WID3D11DeviceContext_GSSetShaderResources(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GSSetShaderResources));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GSSetShaderResources));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_GSSetShaderResources])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_GSSetSamplers(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GSSetSamplers));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GSSetSamplers));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_GSSetSamplers])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_OMSetRenderTargets(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_OMSetRenderTargets));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_OMSetRenderTargets));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_OMSetRenderTargets])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_OMSetRenderTargetsAndUnorderedAccessViews(void* param0, void* param1, void* param2, void* param3, void* param4, void* param5, void* param6, void* param7)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_OMSetRenderTargetsAndUnorderedAccessViews));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_OMSetRenderTargetsAndUnorderedAccessViews));
 	((void (__stdcall *)(void*, void*, void*, void*, void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_OMSetRenderTargetsAndUnorderedAccessViews])(param0, param1, param2, param3, param4, param5, param6, param7);
 }
 
 static void __stdcall WID3D11DeviceContext_OMSetBlendState(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_OMSetBlendState));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_OMSetBlendState));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_OMSetBlendState])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_OMSetDepthStencilState(void* param0, void* param1, void* param2)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_OMSetDepthStencilState));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_OMSetDepthStencilState));
 	((void (__stdcall *)(void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_OMSetDepthStencilState])(param0, param1, param2);
 }
 
 static void __stdcall WID3D11DeviceContext_SOSetTargets(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_SOSetTargets));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_SOSetTargets));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_SOSetTargets])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_DrawAuto(void* param0)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DrawAuto));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DrawAuto));
 	((void (__stdcall *)(void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_DrawAuto])(param0);
 }
 
 static void __stdcall WID3D11DeviceContext_DrawIndexedInstancedIndirect(void* param0, void* param1, void* param2)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DrawIndexedInstancedIndirect));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DrawIndexedInstancedIndirect));
 	((void (__stdcall *)(void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_DrawIndexedInstancedIndirect])(param0, param1, param2);
 }
 
 static void __stdcall WID3D11DeviceContext_DrawInstancedIndirect(void* param0, void* param1, void* param2)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DrawInstancedIndirect));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DrawInstancedIndirect));
 	((void (__stdcall *)(void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_DrawInstancedIndirect])(param0, param1, param2);
 }
 
 static void __stdcall WID3D11DeviceContext_Dispatch(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_Dispatch));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_Dispatch));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_Dispatch])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_DispatchIndirect(void* param0, void* param1, void* param2)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DispatchIndirect));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DispatchIndirect));
 	((void (__stdcall *)(void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_DispatchIndirect])(param0, param1, param2);
 }
 
 static void __stdcall WID3D11DeviceContext_RSSetState(void* param0, void* param1)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_RSSetState));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_RSSetState));
 	((void (__stdcall *)(void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_RSSetState])(param0, param1);
 }
 
 static void __stdcall WID3D11DeviceContext_RSSetViewports(void* param0, void* param1, void* param2)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_RSSetViewports));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_RSSetViewports));
 	((void (__stdcall *)(void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_RSSetViewports])(param0, param1, param2);
 }
 
 static void __stdcall WID3D11DeviceContext_RSSetScissorRects(void* param0, void* param1, void* param2)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_RSSetScissorRects));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_RSSetScissorRects));
 	((void (__stdcall *)(void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_RSSetScissorRects])(param0, param1, param2);
 }
 
 static void __stdcall WID3D11DeviceContext_CopySubresourceRegion(void* param0, void* param1, void* param2, void* param3, void* param4, void* param5, void* param6, void* param7, void* param8)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_CopySubresourceRegion));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_CopySubresourceRegion));
 	((void (__stdcall *)(void*, void*, void*, void*, void*, void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_CopySubresourceRegion])(param0, param1, param2, param3, param4, param5, param6, param7, param8);
 }
 
 static void __stdcall WID3D11DeviceContext_CopyResource(void* param0, void* param1, void* param2)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_CopyResource));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_CopyResource));
 	((void (__stdcall *)(void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_CopyResource])(param0, param1, param2);
 }
 
 static void __stdcall WID3D11DeviceContext_UpdateSubresource(void* param0, void* param1, void* param2, void* param3, void* param4, void* param5, void* param6)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_UpdateSubresource));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_UpdateSubresource));
 	((void (__stdcall *)(void*, void*, void*, void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_UpdateSubresource])(param0, param1, param2, param3, param4, param5, param6);
 }
 
 static void __stdcall WID3D11DeviceContext_CopyStructureCount(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_CopyStructureCount));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_CopyStructureCount));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_CopyStructureCount])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_ClearRenderTargetView(void* param0, void* param1, void* param2)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_ClearRenderTargetView));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_ClearRenderTargetView));
 	((void (__stdcall *)(void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_ClearRenderTargetView])(param0, param1, param2);
 }
 
 static void __stdcall WID3D11DeviceContext_ClearUnorderedAccessViewUint(void* param0, void* param1, void* param2)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_ClearUnorderedAccessViewUint));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_ClearUnorderedAccessViewUint));
 	((void (__stdcall *)(void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_ClearUnorderedAccessViewUint])(param0, param1, param2);
 }
 
 static void __stdcall WID3D11DeviceContext_ClearUnorderedAccessViewFloat(void* param0, void* param1, void* param2)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_ClearUnorderedAccessViewFloat));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_ClearUnorderedAccessViewFloat));
 	((void (__stdcall *)(void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_ClearUnorderedAccessViewFloat])(param0, param1, param2);
 }
 
 static void __stdcall WID3D11DeviceContext_ClearDepthStencilView(void* param0, void* param1, void* param2, void* param3, void* param4)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_ClearDepthStencilView));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_ClearDepthStencilView));
 	((void (__stdcall *)(void*, void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_ClearDepthStencilView])(param0, param1, param2, param3, param4);
 }
 
 static void __stdcall WID3D11DeviceContext_GenerateMips(void* param0, void* param1)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GenerateMips));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GenerateMips));
 	((void (__stdcall *)(void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_GenerateMips])(param0, param1);
 }
 
 static void __stdcall WID3D11DeviceContext_SetResourceMinLOD(void* param0, void* param1, void* param2)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_SetResourceMinLOD));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_SetResourceMinLOD));
 	((void (__stdcall *)(void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_SetResourceMinLOD])(param0, param1, param2);
 }
 
 static float __stdcall WID3D11DeviceContext_GetResourceMinLOD(void* param0, void* param1)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GetResourceMinLOD));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GetResourceMinLOD));
 	return ((float (__stdcall *)(void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_GetResourceMinLOD])(param0, param1);
 }
 
 static void __stdcall WID3D11DeviceContext_ResolveSubresource(void* param0, void* param1, void* param2, void* param3, void* param4, void* param5)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_ResolveSubresource));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_ResolveSubresource));
 	((void (__stdcall *)(void*, void*, void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_ResolveSubresource])(param0, param1, param2, param3, param4, param5);
 }
 
 static void __stdcall WID3D11DeviceContext_ExecuteCommandList(void* param0, void* param1, void* param2)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_ExecuteCommandList));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_ExecuteCommandList));
 	((void (__stdcall *)(void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_ExecuteCommandList])(param0, param1, param2);
 }
 
 static void __stdcall WID3D11DeviceContext_HSSetShaderResources(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_HSSetShaderResources));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_HSSetShaderResources));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_HSSetShaderResources])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_HSSetShader(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_HSSetShader));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_HSSetShader));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_HSSetShader])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_HSSetSamplers(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_HSSetSamplers));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_HSSetSamplers));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_HSSetSamplers])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_HSSetConstantBuffers(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_HSSetConstantBuffers));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_HSSetConstantBuffers));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_HSSetConstantBuffers])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_DSSetShaderResources(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DSSetShaderResources));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DSSetShaderResources));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_DSSetShaderResources])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_DSSetShader(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DSSetShader));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DSSetShader));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_DSSetShader])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_DSSetSamplers(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DSSetSamplers));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DSSetSamplers));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_DSSetSamplers])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_DSSetConstantBuffers(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DSSetConstantBuffers));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DSSetConstantBuffers));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_DSSetConstantBuffers])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_CSSetShaderResources(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_CSSetShaderResources));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_CSSetShaderResources));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_CSSetShaderResources])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_CSSetUnorderedAccessViews(void* param0, void* param1, void* param2, void* param3, void* param4)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_CSSetUnorderedAccessViews));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_CSSetUnorderedAccessViews));
 	((void (__stdcall *)(void*, void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_CSSetUnorderedAccessViews])(param0, param1, param2, param3, param4);
 }
 
 static void __stdcall WID3D11DeviceContext_CSSetShader(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_CSSetShader));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_CSSetShader));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_CSSetShader])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_CSSetSamplers(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_CSSetSamplers));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_CSSetSamplers));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_CSSetSamplers])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_CSSetConstantBuffers(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_CSSetConstantBuffers));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_CSSetConstantBuffers));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_CSSetConstantBuffers])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_VSGetConstantBuffers(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_VSGetConstantBuffers));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_VSGetConstantBuffers));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_VSGetConstantBuffers])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_PSGetShaderResources(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_PSGetShaderResources));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_PSGetShaderResources));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_PSGetShaderResources])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_PSGetShader(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_PSGetShader));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_PSGetShader));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_PSGetShader])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_PSGetSamplers(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_PSGetSamplers));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_PSGetSamplers));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_PSGetSamplers])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_VSGetShader(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_VSGetShader));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_VSGetShader));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_VSGetShader])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_PSGetConstantBuffers(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_PSGetConstantBuffers));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_PSGetConstantBuffers));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_PSGetConstantBuffers])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_IAGetInputLayout(void* param0, void* param1)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_IAGetInputLayout));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_IAGetInputLayout));
 	((void (__stdcall *)(void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_IAGetInputLayout])(param0, param1);
 }
 
 static void __stdcall WID3D11DeviceContext_IAGetVertexBuffers(void* param0, void* param1, void* param2, void* param3, void* param4, void* param5)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_IAGetVertexBuffers));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_IAGetVertexBuffers));
 	((void (__stdcall *)(void*, void*, void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_IAGetVertexBuffers])(param0, param1, param2, param3, param4, param5);
 }
 
 static void __stdcall WID3D11DeviceContext_IAGetIndexBuffer(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_IAGetIndexBuffer));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_IAGetIndexBuffer));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_IAGetIndexBuffer])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_GSGetConstantBuffers(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GSGetConstantBuffers));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GSGetConstantBuffers));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_GSGetConstantBuffers])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_GSGetShader(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GSGetShader));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GSGetShader));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_GSGetShader])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_IAGetPrimitiveTopology(void* param0, void* param1)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_IAGetPrimitiveTopology));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_IAGetPrimitiveTopology));
 	((void (__stdcall *)(void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_IAGetPrimitiveTopology])(param0, param1);
 }
 
 static void __stdcall WID3D11DeviceContext_VSGetShaderResources(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_VSGetShaderResources));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_VSGetShaderResources));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_VSGetShaderResources])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_VSGetSamplers(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_VSGetSamplers));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_VSGetSamplers));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_VSGetSamplers])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_GetPredication(void* param0, void* param1, void* param2)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GetPredication));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GetPredication));
 	((void (__stdcall *)(void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_GetPredication])(param0, param1, param2);
 }
 
 static void __stdcall WID3D11DeviceContext_GSGetShaderResources(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GSGetShaderResources));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GSGetShaderResources));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_GSGetShaderResources])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_GSGetSamplers(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GSGetSamplers));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GSGetSamplers));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_GSGetSamplers])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_OMGetRenderTargets(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_OMGetRenderTargets));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_OMGetRenderTargets));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_OMGetRenderTargets])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_OMGetRenderTargetsAndUnorderedAccessViews(void* param0, void* param1, void* param2, void* param3, void* param4, void* param5, void* param6)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_OMGetRenderTargetsAndUnorderedAccessViews));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_OMGetRenderTargetsAndUnorderedAccessViews));
 	((void (__stdcall *)(void*, void*, void*, void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_OMGetRenderTargetsAndUnorderedAccessViews])(param0, param1, param2, param3, param4, param5, param6);
 }
 
 static void __stdcall WID3D11DeviceContext_OMGetBlendState(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_OMGetBlendState));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_OMGetBlendState));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_OMGetBlendState])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_OMGetDepthStencilState(void* param0, void* param1, void* param2)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_OMGetDepthStencilState));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_OMGetDepthStencilState));
 	((void (__stdcall *)(void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_OMGetDepthStencilState])(param0, param1, param2);
 }
 
 static void __stdcall WID3D11DeviceContext_SOGetTargets(void* param0, void* param1, void* param2)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_SOGetTargets));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_SOGetTargets));
 	((void (__stdcall *)(void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_SOGetTargets])(param0, param1, param2);
 }
 
 static void __stdcall WID3D11DeviceContext_RSGetState(void* param0, void* param1)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_RSGetState));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_RSGetState));
 	((void (__stdcall *)(void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_RSGetState])(param0, param1);
 }
 
 static void __stdcall WID3D11DeviceContext_RSGetViewports(void* param0, void* param1, void* param2)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_RSGetViewports));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_RSGetViewports));
 	((void (__stdcall *)(void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_RSGetViewports])(param0, param1, param2);
 }
 
 static void __stdcall WID3D11DeviceContext_RSGetScissorRects(void* param0, void* param1, void* param2)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_RSGetScissorRects));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_RSGetScissorRects));
 	((void (__stdcall *)(void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_RSGetScissorRects])(param0, param1, param2);
 }
 
 static void __stdcall WID3D11DeviceContext_HSGetShaderResources(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_HSGetShaderResources));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_HSGetShaderResources));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_HSGetShaderResources])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_HSGetShader(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_HSGetShader));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_HSGetShader));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_HSGetShader])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_HSGetSamplers(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_HSGetSamplers));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_HSGetSamplers));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_HSGetSamplers])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_HSGetConstantBuffers(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_HSGetConstantBuffers));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_HSGetConstantBuffers));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_HSGetConstantBuffers])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_DSGetShaderResources(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DSGetShaderResources));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DSGetShaderResources));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_DSGetShaderResources])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_DSGetShader(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DSGetShader));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DSGetShader));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_DSGetShader])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_DSGetSamplers(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DSGetSamplers));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DSGetSamplers));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_DSGetSamplers])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_DSGetConstantBuffers(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DSGetConstantBuffers));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_DSGetConstantBuffers));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_DSGetConstantBuffers])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_CSGetShaderResources(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_CSGetShaderResources));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_CSGetShaderResources));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_CSGetShaderResources])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_CSGetUnorderedAccessViews(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_CSGetUnorderedAccessViews));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_CSGetUnorderedAccessViews));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_CSGetUnorderedAccessViews])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_CSGetShader(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_CSGetShader));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_CSGetShader));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_CSGetShader])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_CSGetSamplers(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_CSGetSamplers));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_CSGetSamplers));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_CSGetSamplers])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_CSGetConstantBuffers(void* param0, void* param1, void* param2, void* param3)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_CSGetConstantBuffers));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_CSGetConstantBuffers));
 	((void (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_CSGetConstantBuffers])(param0, param1, param2, param3);
 }
 
 static void __stdcall WID3D11DeviceContext_ClearState(void* param0)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_ClearState));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_ClearState));
 	((void (__stdcall *)(void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_ClearState])(param0);
 }
 
 static void __stdcall WID3D11DeviceContext_Flush(void* param0)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_Flush));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_Flush));
 	((void (__stdcall *)(void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_Flush])(param0);
 }
 
 static void* __stdcall WID3D11DeviceContext_GetType(void* param0)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GetType));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GetType));
 	return ((void* (__stdcall *)(void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_GetType])(param0);
 }
 
 static void* __stdcall WID3D11DeviceContext_GetContextFlags(void* param0)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GetContextFlags));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_GetContextFlags));
 	return ((void* (__stdcall *)(void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_GetContextFlags])(param0);
 }
 
 static void* __stdcall WID3D11DeviceContext_FinishCommandList(void* param0, void* param1, void* param2)
 {
-	FileWriter_Reserve(8);
-	FileWriter_WriteImmediate4(IncrementCounter());
-	FileWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_FinishCommandList));
+	CallWriter_Reserve(8);
+	CallWriter_WriteImmediate4(IncrementCounter());
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_DeviceContext, ID3D11DeviceContext_FinishCommandList));
 	return ((void* (__stdcall *)(void*, void*, void*))ID3D11DeviceContextOriginalFuncs[ID3D11DeviceContext_FinishCommandList])(param0, param1, param2);
 }
 
@@ -1162,4 +1163,9 @@ void* ID3D11DeviceContextSimpleFuncs[ID3D11DeviceContext__EnumEnd] = {
 	WID3D11DeviceContext_GetContextFlags,
 	WID3D11DeviceContext_FinishCommandList,
 };
+
+#else
+#define ID3D11DeviceContextSimpleFuncs NULL
+#endif
+
 
