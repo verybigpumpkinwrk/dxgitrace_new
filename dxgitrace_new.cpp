@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <Windows.h>
 //#include <d3d11_2.h>
 #include <d3d9.h>
@@ -182,6 +183,7 @@ extern "C" BOOL __stdcall DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lp
 	switch(fdwReason){
 		case DLL_PROCESS_ATTACH:
 		{
+			char path[4096];
 			char buf[4096];
 
 			if(CfgLoaded == false){
@@ -208,14 +210,24 @@ extern "C" BOOL __stdcall DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lp
 				CloseHandle(hMapFile);
 			}
 
-			GetModuleFileNameA(NULL, buf, 4096);
-			*(strchr(buf, 0) - 3) = 0;
+			GetModuleFileNameA(NULL, path, 4096);
+			*(strchr(path, 0) - 3) = 0;
+
+			strcpy(buf, path);
 			strcat(buf, "dxgitrace_new.bin");
 
+			FILE* fp = fopen(buf, "rb");
+
+			if(fp != 0){
+				strcat(path, "1.");
+				fclose(fp);
+			}
+
+			strcpy(buf, path);
+			strcat(buf, "dxgitrace_new.bin");
 			CallWriter_OpenFile(buf);
 
-			GetModuleFileNameA(NULL, buf, 4096);
-			*(strchr(buf, 0) - 3) = 0;
+			strcpy(buf, path);
 			strcat(buf, "sys_mem.bin");
 
 			SysMemWriter_OpenFile(buf);

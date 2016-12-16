@@ -501,7 +501,7 @@ static HRESULT __stdcall WDID3D11Device_CreateBuffer(void* _this, D3D11_BUFFER_D
 {
 	HRESULT hr;
 	uint32_t call_n = IncrementCounter();
-	Log("ID3D11Device::CreateBuffer size: %u, pInitData: 0x%08x", pDesc->ByteWidth, pInitialData);
+	//Log("ID3D11Device::CreateBuffer size: %u, pInitData: 0x%08x", pDesc->ByteWidth, pInitialData);
 	CallWriter_Reserve(8 + 4 * sizeof(void*));
 	CallWriter_WriteImmediate4(call_n);
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CreateBuffer));
@@ -564,7 +564,7 @@ static HRESULT __stdcall WDID3D11Device_CreateTexture2D(void* _this, D3D11_TEXTU
 {
 	HRESULT hr;
 	uint32_t call_n = IncrementCounter();
-	Log("ID3D11Device::CreateTexture2D width: %u, height: %u, mips: %u, N: %u, pIData: 0x%08x", pDesc->Width, pDesc->Height, pDesc->MipLevels, pDesc->ArraySize, pInitialData);
+	//Log("ID3D11Device::CreateTexture2D width: %u, height: %u, mips: %u, N: %u, pIData: 0x%08x", pDesc->Width, pDesc->Height, pDesc->MipLevels, pDesc->ArraySize, pInitialData);
 	CallWriter_Reserve(8 + 4 * sizeof(void*));
 	CallWriter_WriteImmediate4(call_n);
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CreateTexture2D));
@@ -594,307 +594,722 @@ static HRESULT __stdcall WDID3D11Device_CreateTexture2D(void* _this, D3D11_TEXTU
 	return hr;
 }
 
-static void* __stdcall WDID3D11Device_CreateTexture3D(void* _this, void* param1, void* param2, void* param3)
+typedef HRESULT(__stdcall *FNT_DEVICE_CREATE_TEXTURE3D)(void*, D3D11_TEXTURE3D_DESC*, D3D11_SUBRESOURCE_DATA*, ID3D11Texture3D**);
+
+static HRESULT __stdcall WDID3D11Device_CreateTexture3D(void* _this, D3D11_TEXTURE3D_DESC *pDesc, D3D11_SUBRESOURCE_DATA *pInitialData, ID3D11Texture3D **ppTexture3D)
 {
-	CallWriter_Reserve(8);
-	CallWriter_WriteImmediate4(IncrementCounter());
+	HRESULT hr;
+	uint32_t call_n = IncrementCounter();
+
+	CallWriter_Reserve(8 + 4 * sizeof(void*));
+	CallWriter_WriteImmediate4(call_n);
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CreateTexture3D));
-	return ((void* (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateTexture3D])(_this, param1, param2, param3);
+	CallWriter_WriteImmediate((arg_t)_this);
+	CallWriter_WriteImmediate((arg_t)pDesc);
+	CallWriter_WriteImmediate((arg_t)pInitialData);
+
+	hr = ((FNT_DEVICE_CREATE_TEXTURE3D)ID3D11DeviceOriginalFuncs[ID3D11Device_CreateTexture3D])(_this, pDesc, pInitialData, ppTexture3D);
+
+	CallWriter_WriteImmediate(ppTexture3D != NULL ? (arg_t)*ppTexture3D : NULL);
+	SysMemWriter_Reserve(sizeof(struct SysMemHeader) + sizeof(D3D11_TEXTURE3D_DESC));
+	SysMemWriter_WriteData(call_n, pDesc, sizeof(D3D11_TEXTURE3D_DESC));
+
+	if(pInitialData != NULL){
+		if(pDesc->MipLevels == 0){
+			Log("Brrrrrrggghhh3!");
+		}
+
+		SysMemWriter_WriteBigData(call_n, pInitialData, pDesc->MipLevels * sizeof(D3D11_SUBRESOURCE_DATA));
+
+		for(uint32_t i = 0; i < pDesc->MipLevels; i++){
+			SysMemWriter_WriteBigData(call_n, (void*)pInitialData[i].pSysMem, CalcSubresourceSize3D(pDesc, i, pInitialData[i].SysMemPitch, pInitialData[i].SysMemSlicePitch));
+		}
+	}
+
+	return hr;
 }
 
-static void* __stdcall WDID3D11Device_CreateShaderResourceView(void* _this, void* param1, void* param2, void* param3)
+typedef HRESULT(__stdcall *FNT_DEVICE_CREATE_SR_VIEW)(void*, ID3D11Resource*, D3D11_SHADER_RESOURCE_VIEW_DESC*, ID3D11ShaderResourceView**);
+
+static HRESULT __stdcall WDID3D11Device_CreateShaderResourceView(void* _this, ID3D11Resource *pResource, D3D11_SHADER_RESOURCE_VIEW_DESC *pDesc, ID3D11ShaderResourceView **ppSRView)
 {
-	CallWriter_Reserve(8);
-	CallWriter_WriteImmediate4(IncrementCounter());
+	HRESULT hr;
+	uint32_t call_n = IncrementCounter();
+
+	CallWriter_Reserve(8 + 4 * sizeof(void*));
+	CallWriter_WriteImmediate4(call_n);
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CreateShaderResourceView));
-	return ((void* (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateShaderResourceView])(_this, param1, param2, param3);
+	CallWriter_WriteImmediate((arg_t)_this);
+	CallWriter_WriteImmediate((arg_t)pResource);
+	CallWriter_WriteImmediate((arg_t)pDesc);
+
+	hr = ((FNT_DEVICE_CREATE_SR_VIEW)ID3D11DeviceOriginalFuncs[ID3D11Device_CreateShaderResourceView])(_this, pResource, pDesc, ppSRView);
+
+	CallWriter_WriteImmediate(ppSRView != NULL ? (arg_t)*ppSRView : NULL);
+	if(pDesc != NULL){
+		SysMemWriter_Reserve(sizeof(struct SysMemHeader) + sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
+		SysMemWriter_WriteData(call_n, pDesc, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
+	}
+
+	return hr;
 }
 
-static void* __stdcall WDID3D11Device_CreateUnorderedAccessView(void* _this, void* param1, void* param2, void* param3)
+typedef HRESULT(__stdcall *FNT_DEVICE_CREATE_UAVIEW)(void*, ID3D11Resource*, D3D11_UNORDERED_ACCESS_VIEW_DESC*, ID3D11UnorderedAccessView**);
+
+static HRESULT __stdcall WDID3D11Device_CreateUnorderedAccessView(void* _this, ID3D11Resource *pResource, D3D11_UNORDERED_ACCESS_VIEW_DESC *pDesc, ID3D11UnorderedAccessView **ppUAView)
 {
-	CallWriter_Reserve(8);
-	CallWriter_WriteImmediate4(IncrementCounter());
+	HRESULT hr;
+	uint32_t call_n = IncrementCounter();
+
+	CallWriter_Reserve(8 + 4 * sizeof(void*));
+	CallWriter_WriteImmediate4(call_n);
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CreateUnorderedAccessView));
-	return ((void* (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateUnorderedAccessView])(_this, param1, param2, param3);
+	CallWriter_WriteImmediate((arg_t)_this);
+	CallWriter_WriteImmediate((arg_t)pResource);
+	CallWriter_WriteImmediate((arg_t)pDesc);
+
+	hr = ((FNT_DEVICE_CREATE_UAVIEW)ID3D11DeviceOriginalFuncs[ID3D11Device_CreateUnorderedAccessView])(_this, pResource, pDesc, ppUAView);
+
+	CallWriter_WriteImmediate(ppUAView != NULL ? (arg_t)*ppUAView : NULL);
+	if(pDesc != NULL){
+		SysMemWriter_Reserve(sizeof(struct SysMemHeader) + sizeof(D3D11_UNORDERED_ACCESS_VIEW_DESC));
+		SysMemWriter_WriteData(call_n, pDesc, sizeof(D3D11_UNORDERED_ACCESS_VIEW_DESC));
+	}
+
+	return hr;
 }
 
-static void* __stdcall WDID3D11Device_CreateRenderTargetView(void* _this, void* param1, void* param2, void* param3)
+typedef HRESULT(__stdcall *FNT_DEVICE_CREATE_RTVIEW)(void*, ID3D11Resource*, D3D11_RENDER_TARGET_VIEW_DESC*, ID3D11RenderTargetView**);
+
+static HRESULT __stdcall WDID3D11Device_CreateRenderTargetView(void* _this, ID3D11Resource *pResource, D3D11_RENDER_TARGET_VIEW_DESC *pDesc, ID3D11RenderTargetView **ppRTView)
 {
-	CallWriter_Reserve(8);
-	CallWriter_WriteImmediate4(IncrementCounter());
+	HRESULT hr;
+	uint32_t call_n = IncrementCounter();
+
+	CallWriter_Reserve(8 + 4 * sizeof(void*));
+	CallWriter_WriteImmediate4(call_n);
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CreateRenderTargetView));
-	return ((void* (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateRenderTargetView])(_this, param1, param2, param3);
+	CallWriter_WriteImmediate((arg_t)_this);
+	CallWriter_WriteImmediate((arg_t)pResource);
+	CallWriter_WriteImmediate((arg_t)pDesc);
+
+	hr = ((FNT_DEVICE_CREATE_RTVIEW)ID3D11DeviceOriginalFuncs[ID3D11Device_CreateRenderTargetView])(_this, pResource, pDesc, ppRTView);
+
+	CallWriter_WriteImmediate(ppRTView != NULL ? (arg_t)*ppRTView : NULL);
+	if(pDesc != NULL){
+		SysMemWriter_Reserve(sizeof(struct SysMemHeader) + sizeof(D3D11_RENDER_TARGET_VIEW_DESC));
+		SysMemWriter_WriteData(call_n, pDesc, sizeof(D3D11_RENDER_TARGET_VIEW_DESC));
+	}
+
+	return hr;
 }
 
-static void* __stdcall WDID3D11Device_CreateDepthStencilView(void* _this, void* param1, void* param2, void* param3)
+typedef HRESULT(__stdcall *FNT_DEVICE_CREATE_DST_VIEW)(void*, ID3D11Resource*, D3D11_DEPTH_STENCIL_VIEW_DESC*, ID3D11DepthStencilView**);
+
+static HRESULT __stdcall WDID3D11Device_CreateDepthStencilView(void* _this, ID3D11Resource *pResource, D3D11_DEPTH_STENCIL_VIEW_DESC *pDesc, ID3D11DepthStencilView **ppDepthStencilView)
 {
-	CallWriter_Reserve(8);
-	CallWriter_WriteImmediate4(IncrementCounter());
+	HRESULT hr;
+	uint32_t call_n = IncrementCounter();
+
+	CallWriter_Reserve(8 + 4 * sizeof(void*));
+	CallWriter_WriteImmediate4(call_n);
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CreateDepthStencilView));
-	return ((void* (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateDepthStencilView])(_this, param1, param2, param3);
+	CallWriter_WriteImmediate((arg_t)_this);
+	CallWriter_WriteImmediate((arg_t)pResource);
+	CallWriter_WriteImmediate((arg_t)pDesc);
+
+	hr = ((FNT_DEVICE_CREATE_DST_VIEW)ID3D11DeviceOriginalFuncs[ID3D11Device_CreateDepthStencilView])(_this, pResource, pDesc, ppDepthStencilView);
+
+	CallWriter_WriteImmediate(ppDepthStencilView != NULL ? (arg_t)*ppDepthStencilView : NULL);
+	if(pDesc != NULL){
+		SysMemWriter_Reserve(sizeof(struct SysMemHeader) + sizeof(D3D11_DEPTH_STENCIL_VIEW_DESC));
+		SysMemWriter_WriteData(call_n, pDesc, sizeof(D3D11_DEPTH_STENCIL_VIEW_DESC));
+	}
+
+	return hr;
 }
 
-static void* __stdcall WDID3D11Device_CreateInputLayout(void* _this, void* param1, void* param2, void* param3, void* param4, void* param5)
+typedef HRESULT(__stdcall *FNT_DEVICE_CREATE_INPUT_LAYOUT)(void*, D3D11_INPUT_ELEMENT_DESC*, UINT, void*, SIZE_T, ID3D11InputLayout**);
+
+static HRESULT __stdcall WDID3D11Device_CreateInputLayout(void* _this, D3D11_INPUT_ELEMENT_DESC *pInputElementDescs, UINT NumElements, void *pShaderBytecodeWithInputSignature,
+																		SIZE_T BytecodeLength, ID3D11InputLayout **ppInputLayout)
 {
-	CallWriter_Reserve(8);
-	CallWriter_WriteImmediate4(IncrementCounter());
+	HRESULT hr;
+	uint32_t call_n = IncrementCounter();
+
+	CallWriter_Reserve(8 + 6 * sizeof(void*));
+	CallWriter_WriteImmediate4(call_n);
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CreateInputLayout));
-	return ((void* (__stdcall *)(void*, void*, void*, void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateInputLayout])(_this, param1, param2, param3, param4, param5);
+	CallWriter_WriteImmediate((arg_t)_this);
+	CallWriter_WriteImmediate((arg_t)pInputElementDescs);
+	CallWriter_WriteImmediate((arg_t)NumElements);
+	CallWriter_WriteImmediate((arg_t)pShaderBytecodeWithInputSignature);
+	CallWriter_WriteImmediate((arg_t)BytecodeLength);
+
+	hr = ((FNT_DEVICE_CREATE_INPUT_LAYOUT)ID3D11DeviceOriginalFuncs[ID3D11Device_CreateInputLayout])(_this, pInputElementDescs, NumElements, pShaderBytecodeWithInputSignature,
+		BytecodeLength, ppInputLayout);
+
+	CallWriter_WriteImmediate(ppInputLayout != NULL ? (arg_t)*ppInputLayout : NULL);
+
+	SysMemWriter_WriteBigData(call_n, pInputElementDescs, NumElements * sizeof(D3D11_INPUT_ELEMENT_DESC));
+
+	for(uint32_t i = 0; i < NumElements; i++){
+		SysMemWriter_WriteBigData(call_n, (void*)pInputElementDescs[i].SemanticName, strlen(pInputElementDescs[i].SemanticName));
+	}
+
+	SysMemWriter_WriteBigData(call_n, pShaderBytecodeWithInputSignature, BytecodeLength);
+
+	return hr;
 }
 
-static void* __stdcall WDID3D11Device_CreateVertexShader(void* _this, void* param1, void* param2, void* param3, void* param4)
+typedef HRESULT(__stdcall *FNT_DEVICE_CREATE_VSHADER)(void*, void*, SIZE_T, ID3D11ClassLinkage*, ID3D11VertexShader**);
+
+static HRESULT __stdcall WDID3D11Device_CreateVertexShader(void* _this, void *pShaderBytecode, SIZE_T BytecodeLength, ID3D11ClassLinkage *pClassLinkage, ID3D11VertexShader **ppVertexShader)
 {
-	CallWriter_Reserve(8);
-	CallWriter_WriteImmediate4(IncrementCounter());
+	HRESULT hr;
+	uint32_t call_n = IncrementCounter();
+
+	CallWriter_Reserve(8 + 5 * sizeof(void*));
+	CallWriter_WriteImmediate4(call_n);
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CreateVertexShader));
-	return ((void* (__stdcall *)(void*, void*, void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateVertexShader])(_this, param1, param2, param3, param4);
+	CallWriter_WriteImmediate((arg_t)_this);
+	CallWriter_WriteImmediate((arg_t)pShaderBytecode);
+	CallWriter_WriteImmediate((arg_t)BytecodeLength);
+	CallWriter_WriteImmediate((arg_t)pClassLinkage);
+
+	hr = ((FNT_DEVICE_CREATE_VSHADER)ID3D11DeviceOriginalFuncs[ID3D11Device_CreateVertexShader])(_this, pShaderBytecode, BytecodeLength, pClassLinkage, ppVertexShader);
+
+	CallWriter_WriteImmediate(ppVertexShader != NULL ? (arg_t)*ppVertexShader : NULL);
+
+	SysMemWriter_WriteBigData(call_n, pShaderBytecode, BytecodeLength);
+
+	return hr;
 }
 
-static void* __stdcall WDID3D11Device_CreateGeometryShader(void* _this, void* param1, void* param2, void* param3, void* param4)
+typedef HRESULT(__stdcall *FNT_DEVICE_CREATE_GSHADER)(void*, void*, SIZE_T, ID3D11ClassLinkage*, ID3D11GeometryShader**);
+
+static HRESULT __stdcall WDID3D11Device_CreateGeometryShader(void* _this, void *pShaderBytecode, SIZE_T BytecodeLength, ID3D11ClassLinkage *pClassLinkage, ID3D11GeometryShader **ppGeometryShader)
 {
-	CallWriter_Reserve(8);
-	CallWriter_WriteImmediate4(IncrementCounter());
+	HRESULT hr;
+	uint32_t call_n = IncrementCounter();
+
+	CallWriter_Reserve(8 + 5 * sizeof(void*));
+	CallWriter_WriteImmediate4(call_n);
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CreateGeometryShader));
-	return ((void* (__stdcall *)(void*, void*, void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateGeometryShader])(_this, param1, param2, param3, param4);
+	CallWriter_WriteImmediate((arg_t)_this);
+	CallWriter_WriteImmediate((arg_t)pShaderBytecode);
+	CallWriter_WriteImmediate((arg_t)BytecodeLength);
+	CallWriter_WriteImmediate((arg_t)pClassLinkage);
+
+	hr = ((FNT_DEVICE_CREATE_GSHADER)ID3D11DeviceOriginalFuncs[ID3D11Device_CreateGeometryShader])(_this, pShaderBytecode, BytecodeLength, pClassLinkage, ppGeometryShader);
+
+	CallWriter_WriteImmediate(ppGeometryShader != NULL ? (arg_t)*ppGeometryShader : NULL);
+
+	SysMemWriter_WriteBigData(call_n, pShaderBytecode, BytecodeLength);
+
+	return hr;
 }
 
-static void* __stdcall WDID3D11Device_CreateGeometryShaderWithStreamOutput(void* _this, void* param1, void* param2, void* param3, void* param4, void* param5, void* param6, void* param7, void* param8, void* param9)
+typedef HRESULT(__stdcall *FNT_DEVICE_CREATE_GSHADER_WITH_SO)(void*, void*, SIZE_T, D3D11_SO_DECLARATION_ENTRY*, UINT, UINT*, UINT, UINT, ID3D11ClassLinkage*, ID3D11GeometryShader**);
+
+static HRESULT __stdcall WDID3D11Device_CreateGeometryShaderWithStreamOutput(void* _this, void *pShaderBytecode, SIZE_T BytecodeLength, D3D11_SO_DECLARATION_ENTRY *pSODeclaration,
+							UINT NumEntries, UINT *pBufferStrides, UINT NumStrides, UINT RasterizedStream, ID3D11ClassLinkage *pClassLinkage, ID3D11GeometryShader **ppGeometryShader)
 {
-	CallWriter_Reserve(8);
-	CallWriter_WriteImmediate4(IncrementCounter());
-	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CreateGeometryShaderWithStreamOutput));
-	return ((void* (__stdcall *)(void*, void*, void*, void*, void*, void*, void*, void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateGeometryShaderWithStreamOutput])(_this, param1, param2, param3, param4, param5, param6, param7, param8, param9);
+	HRESULT hr;
+	uint32_t call_n = IncrementCounter();
+
+	CallWriter_Reserve(8 + 10 * sizeof(void*));
+	CallWriter_WriteImmediate4(call_n);
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CreateGeometryShader));
+	CallWriter_WriteImmediate((arg_t)_this);
+	CallWriter_WriteImmediate((arg_t)pShaderBytecode);
+	CallWriter_WriteImmediate((arg_t)BytecodeLength);
+	CallWriter_WriteImmediate((arg_t)pSODeclaration);
+	CallWriter_WriteImmediate((arg_t)NumEntries);
+	CallWriter_WriteImmediate((arg_t)pBufferStrides);
+	CallWriter_WriteImmediate((arg_t)NumStrides);
+	CallWriter_WriteImmediate((arg_t)RasterizedStream);
+	CallWriter_WriteImmediate((arg_t)pClassLinkage);
+
+	hr = ((FNT_DEVICE_CREATE_GSHADER_WITH_SO)ID3D11DeviceOriginalFuncs[ID3D11Device_CreateGeometryShaderWithStreamOutput])(_this, pShaderBytecode, BytecodeLength, pSODeclaration, NumEntries,
+		pBufferStrides, NumStrides, RasterizedStream, pClassLinkage, ppGeometryShader);
+
+	CallWriter_WriteImmediate(ppGeometryShader != NULL ? (arg_t)*ppGeometryShader : NULL);
+
+	SysMemWriter_WriteBigData(call_n, pShaderBytecode, BytecodeLength);
+	if(NumEntries > 0){
+		SysMemWriter_WriteBigData(call_n, pSODeclaration, NumEntries * sizeof(D3D11_SO_DECLARATION_ENTRY));
+
+		for(uint32_t i = 0; i < NumEntries; i++){
+			if(pSODeclaration[i].SemanticName != NULL){
+				SysMemWriter_WriteBigData(call_n, (void*)pSODeclaration[i].SemanticName, strlen(pSODeclaration[i].SemanticName));
+			}
+		}
+	}
+
+	if(NumStrides > 0){
+		SysMemWriter_WriteBigData(call_n, pBufferStrides, NumStrides * sizeof(UINT));
+	}
+
+	return hr;
 }
 
-static void* __stdcall WDID3D11Device_CreatePixelShader(void* _this, void* param1, void* param2, void* param3, void* param4)
+typedef HRESULT(__stdcall *FNT_DEVICE_CREATE_PSHADER)(void*, void*, SIZE_T, ID3D11ClassLinkage*, ID3D11PixelShader**);
+
+static HRESULT __stdcall WDID3D11Device_CreatePixelShader(void* _this, void *pShaderBytecode, SIZE_T BytecodeLength, ID3D11ClassLinkage *pClassLinkage, ID3D11PixelShader **ppPixelShader)
 {
-	//Log("Calling CreatePixelShader");
-	CallWriter_Reserve(8);
-	CallWriter_WriteImmediate4(IncrementCounter());
+	HRESULT hr;
+	uint32_t call_n = IncrementCounter();
+
+	CallWriter_Reserve(8 + 5 * sizeof(void*));
+	CallWriter_WriteImmediate4(call_n);
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CreatePixelShader));
-	return ((void* (__stdcall *)(void*, void*, void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CreatePixelShader])(_this, param1, param2, param3, param4);
+	CallWriter_WriteImmediate((arg_t)_this);
+	CallWriter_WriteImmediate((arg_t)pShaderBytecode);
+	CallWriter_WriteImmediate((arg_t)BytecodeLength);
+	CallWriter_WriteImmediate((arg_t)pClassLinkage);
+
+	hr = ((FNT_DEVICE_CREATE_PSHADER)ID3D11DeviceOriginalFuncs[ID3D11Device_CreatePixelShader])(_this, pShaderBytecode, BytecodeLength, pClassLinkage, ppPixelShader);
+
+	CallWriter_WriteImmediate(ppPixelShader != NULL ? (arg_t)*ppPixelShader : NULL);
+
+	SysMemWriter_WriteBigData(call_n, pShaderBytecode, BytecodeLength);
+
+	return hr;
 }
 
-static void* __stdcall WDID3D11Device_CreateHullShader(void* _this, void* param1, void* param2, void* param3, void* param4)
+typedef HRESULT(__stdcall *FNT_DEVICE_CREATE_HSHADER)(void*, void*, SIZE_T, ID3D11ClassLinkage*, ID3D11HullShader**);
+
+static HRESULT __stdcall WDID3D11Device_CreateHullShader(void* _this, void *pShaderBytecode, SIZE_T BytecodeLength, ID3D11ClassLinkage *pClassLinkage, ID3D11HullShader **ppHullShader)
 {
-	CallWriter_Reserve(8);
-	CallWriter_WriteImmediate4(IncrementCounter());
+	HRESULT hr;
+	uint32_t call_n = IncrementCounter();
+
+	CallWriter_Reserve(8 + 5 * sizeof(void*));
+	CallWriter_WriteImmediate4(call_n);
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CreateHullShader));
-	return ((void* (__stdcall *)(void*, void*, void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateHullShader])(_this, param1, param2, param3, param4);
+	CallWriter_WriteImmediate((arg_t)_this);
+	CallWriter_WriteImmediate((arg_t)pShaderBytecode);
+	CallWriter_WriteImmediate((arg_t)BytecodeLength);
+	CallWriter_WriteImmediate((arg_t)pClassLinkage);
+
+	hr = ((FNT_DEVICE_CREATE_HSHADER)ID3D11DeviceOriginalFuncs[ID3D11Device_CreateHullShader])(_this, pShaderBytecode, BytecodeLength, pClassLinkage, ppHullShader);
+
+	CallWriter_WriteImmediate(ppHullShader != NULL ? (arg_t)*ppHullShader : NULL);
+
+	SysMemWriter_WriteBigData(call_n, pShaderBytecode, BytecodeLength);
+
+	return hr;
 }
 
-static void* __stdcall WDID3D11Device_CreateDomainShader(void* _this, void* param1, void* param2, void* param3, void* param4)
+typedef HRESULT(__stdcall *FNT_DEVICE_CREATE_DSHADER)(void*, void*, SIZE_T, ID3D11ClassLinkage*, ID3D11DomainShader**);
+
+static HRESULT __stdcall WDID3D11Device_CreateDomainShader(void* _this, void *pShaderBytecode, SIZE_T BytecodeLength, ID3D11ClassLinkage *pClassLinkage, ID3D11DomainShader **ppDomainShader)
 {
-	CallWriter_Reserve(8);
-	CallWriter_WriteImmediate4(IncrementCounter());
+	HRESULT hr;
+	uint32_t call_n = IncrementCounter();
+
+	CallWriter_Reserve(8 + 5 * sizeof(void*));
+	CallWriter_WriteImmediate4(call_n);
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CreateDomainShader));
-	return ((void* (__stdcall *)(void*, void*, void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateDomainShader])(_this, param1, param2, param3, param4);
+	CallWriter_WriteImmediate((arg_t)_this);
+	CallWriter_WriteImmediate((arg_t)pShaderBytecode);
+	CallWriter_WriteImmediate((arg_t)BytecodeLength);
+	CallWriter_WriteImmediate((arg_t)pClassLinkage);
+
+	hr = ((FNT_DEVICE_CREATE_DSHADER)ID3D11DeviceOriginalFuncs[ID3D11Device_CreateDomainShader])(_this, pShaderBytecode, BytecodeLength, pClassLinkage, ppDomainShader);
+
+	CallWriter_WriteImmediate(ppDomainShader != NULL ? (arg_t)*ppDomainShader : NULL);
+
+	SysMemWriter_WriteBigData(call_n, pShaderBytecode, BytecodeLength);
+
+	return hr;
 }
 
-static void* __stdcall WDID3D11Device_CreateComputeShader(void* _this, void* param1, void* param2, void* param3, void* param4)
+typedef HRESULT(__stdcall *FNT_DEVICE_CREATE_CSHADER)(void*, void*, SIZE_T, ID3D11ClassLinkage*, ID3D11ComputeShader**);
+
+static HRESULT __stdcall WDID3D11Device_CreateComputeShader(void* _this, void *pShaderBytecode, SIZE_T BytecodeLength, ID3D11ClassLinkage *pClassLinkage, ID3D11ComputeShader **ppComputeShader)
 {
-	CallWriter_Reserve(8);
-	CallWriter_WriteImmediate4(IncrementCounter());
+	HRESULT hr;
+	uint32_t call_n = IncrementCounter();
+
+	CallWriter_Reserve(8 + 5 * sizeof(void*));
+	CallWriter_WriteImmediate4(call_n);
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CreateComputeShader));
-	return ((void* (__stdcall *)(void*, void*, void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateComputeShader])(_this, param1, param2, param3, param4);
+	CallWriter_WriteImmediate((arg_t)_this);
+	CallWriter_WriteImmediate((arg_t)pShaderBytecode);
+	CallWriter_WriteImmediate((arg_t)BytecodeLength);
+	CallWriter_WriteImmediate((arg_t)pClassLinkage);
+
+	hr = ((FNT_DEVICE_CREATE_CSHADER)ID3D11DeviceOriginalFuncs[ID3D11Device_CreateComputeShader])(_this, pShaderBytecode, BytecodeLength, pClassLinkage, ppComputeShader);
+
+	CallWriter_WriteImmediate(ppComputeShader != NULL ? (arg_t)*ppComputeShader : NULL);
+
+	SysMemWriter_WriteBigData(call_n, pShaderBytecode, BytecodeLength);
+
+	return hr;
 }
 
-static void* __stdcall WDID3D11Device_CreateClassLinkage(void* _this, void* param1)
+static HRESULT __stdcall WDID3D11Device_CreateClassLinkage(void* _this, ID3D11ClassLinkage **ppLinkage)
 {
-	CallWriter_Reserve(8);
+	HRESULT hr;
+
+	CallWriter_Reserve(8 + 2 * sizeof(void*));
 	CallWriter_WriteImmediate4(IncrementCounter());
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CreateClassLinkage));
-	return ((void* (__stdcall *)(void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateClassLinkage])(_this, param1);
+
+	hr = ((HRESULT(__stdcall *)(void*, ID3D11ClassLinkage **))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateClassLinkage])(_this, ppLinkage);
+
+	CallWriter_WriteImmediate((arg_t)*ppLinkage);
+
+	return hr;
 }
 
-static void* __stdcall WDID3D11Device_CreateBlendState(void* _this, void* param1, void* param2)
+static HRESULT __stdcall WDID3D11Device_CreateBlendState(void* _this, D3D11_BLEND_DESC *pBlendStateDesc, ID3D11BlendState **ppBlendState)
 {
-	CallWriter_Reserve(8);
-	CallWriter_WriteImmediate4(IncrementCounter());
+	HRESULT hr;
+	uint32_t call_n = IncrementCounter();
+
+	CallWriter_Reserve(8 + 3 * sizeof(void*));
+	CallWriter_WriteImmediate4(call_n);
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CreateBlendState));
-	return ((void* (__stdcall *)(void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateBlendState])(_this, param1, param2);
+	CallWriter_WriteImmediate((arg_t)_this);
+	CallWriter_WriteImmediate((arg_t)pBlendStateDesc);
+
+	hr = ((HRESULT(__stdcall *)(void*, D3D11_BLEND_DESC*, ID3D11BlendState**))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateBlendState])(_this, pBlendStateDesc, ppBlendState);
+
+	CallWriter_WriteImmediate(ppBlendState != NULL ? (arg_t)*ppBlendState : NULL);
+
+	SysMemWriter_Reserve(sizeof(struct SysMemHeader) + sizeof(D3D11_BLEND_DESC));
+	SysMemWriter_WriteData(call_n, pBlendStateDesc, sizeof(D3D11_BLEND_DESC));
+
+	return hr;
 }
 
-static void* __stdcall WDID3D11Device_CreateDepthStencilState(void* _this, void* param1, void* param2)
+static HRESULT __stdcall WDID3D11Device_CreateDepthStencilState(void* _this, D3D11_DEPTH_STENCIL_DESC *pDepthStencilStateDesc, ID3D11DepthStencilState **ppDepthStencilState)
 {
-	CallWriter_Reserve(8);
-	CallWriter_WriteImmediate4(IncrementCounter());
+	HRESULT hr;
+	uint32_t call_n = IncrementCounter();
+
+	CallWriter_Reserve(8 + 3 * sizeof(void*));
+	CallWriter_WriteImmediate4(call_n);
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CreateDepthStencilState));
-	return ((void* (__stdcall *)(void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateDepthStencilState])(_this, param1, param2);
+	CallWriter_WriteImmediate((arg_t)_this);
+	CallWriter_WriteImmediate((arg_t)pDepthStencilStateDesc);
+
+	hr = ((HRESULT(__stdcall *)(void*, D3D11_DEPTH_STENCIL_DESC*, ID3D11DepthStencilState**))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateDepthStencilState])(_this, pDepthStencilStateDesc, ppDepthStencilState);
+
+	CallWriter_WriteImmediate(ppDepthStencilState != NULL ? (arg_t)*ppDepthStencilState : NULL);
+
+	SysMemWriter_Reserve(sizeof(struct SysMemHeader) + sizeof(D3D11_DEPTH_STENCIL_DESC));
+	SysMemWriter_WriteData(call_n, pDepthStencilStateDesc, sizeof(D3D11_DEPTH_STENCIL_DESC));
+
+	return hr;
 }
 
-static void* __stdcall WDID3D11Device_CreateRasterizerState(void* _this, void* param1, void* param2)
+static HRESULT __stdcall WDID3D11Device_CreateRasterizerState(void* _this, D3D11_RASTERIZER_DESC *pRasterizerStateDesc, ID3D11RasterizerState **ppRasterizerState)
 {
-	CallWriter_Reserve(8);
-	CallWriter_WriteImmediate4(IncrementCounter());
+	HRESULT hr;
+	uint32_t call_n = IncrementCounter();
+
+	CallWriter_Reserve(8 + 3 * sizeof(void*));
+	CallWriter_WriteImmediate4(call_n);
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CreateRasterizerState));
-	return ((void* (__stdcall *)(void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateRasterizerState])(_this, param1, param2);
+	CallWriter_WriteImmediate((arg_t)_this);
+	CallWriter_WriteImmediate((arg_t)pRasterizerStateDesc);
+
+	hr = ((HRESULT(__stdcall *)(void*, D3D11_RASTERIZER_DESC*, ID3D11RasterizerState**))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateRasterizerState])(_this, pRasterizerStateDesc, ppRasterizerState);
+
+	CallWriter_WriteImmediate(ppRasterizerState != NULL ? (arg_t)*ppRasterizerState : NULL);
+
+	SysMemWriter_Reserve(sizeof(struct SysMemHeader) + sizeof(D3D11_RASTERIZER_DESC));
+	SysMemWriter_WriteData(call_n, pRasterizerStateDesc, sizeof(D3D11_RASTERIZER_DESC));
+
+	return hr;
 }
 
-static void* __stdcall WDID3D11Device_CreateSamplerState(void* _this, void* param1, void* param2)
+static HRESULT __stdcall WDID3D11Device_CreateSamplerState(void* _this, D3D11_SAMPLER_DESC *pSamplerStateDesc, ID3D11SamplerState **ppSamplerState)
 {
-	CallWriter_Reserve(8);
-	CallWriter_WriteImmediate4(IncrementCounter());
+	HRESULT hr;
+	uint32_t call_n = IncrementCounter();
+
+	CallWriter_Reserve(8 + 3 * sizeof(void*));
+	CallWriter_WriteImmediate4(call_n);
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CreateSamplerState));
-	return ((void* (__stdcall *)(void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateSamplerState])(_this, param1, param2);
+	CallWriter_WriteImmediate((arg_t)_this);
+	CallWriter_WriteImmediate((arg_t)pSamplerStateDesc);
+
+	hr = ((HRESULT(__stdcall *)(void*, D3D11_SAMPLER_DESC*, ID3D11SamplerState**))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateSamplerState])(_this, pSamplerStateDesc, ppSamplerState);
+
+	CallWriter_WriteImmediate(ppSamplerState != NULL ? (arg_t)*ppSamplerState : NULL);
+
+	SysMemWriter_Reserve(sizeof(struct SysMemHeader) + sizeof(D3D11_SAMPLER_DESC));
+	SysMemWriter_WriteData(call_n, pSamplerStateDesc, sizeof(D3D11_SAMPLER_DESC));
+
+	return hr;
 }
 
-static void* __stdcall WDID3D11Device_CreateQuery(void* _this, void* param1, void* param2)
+static HRESULT __stdcall WDID3D11Device_CreateQuery(void* _this, D3D11_QUERY_DESC *pQueryDesc, ID3D11Query **ppQuery)
 {
-	CallWriter_Reserve(8);
-	CallWriter_WriteImmediate4(IncrementCounter());
+	HRESULT hr;
+	uint32_t call_n = IncrementCounter();
+
+	CallWriter_Reserve(8 + 3 * sizeof(void*));
+	CallWriter_WriteImmediate4(call_n);
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CreateQuery));
-	return ((void* (__stdcall *)(void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateQuery])(_this, param1, param2);
+	CallWriter_WriteImmediate((arg_t)_this);
+	CallWriter_WriteImmediate((arg_t)pQueryDesc);
+
+	hr = ((HRESULT(__stdcall *)(void*, D3D11_QUERY_DESC*, ID3D11Query**))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateQuery])(_this, pQueryDesc, ppQuery);
+
+	CallWriter_WriteImmediate(ppQuery != NULL ? (arg_t)*ppQuery : NULL);
+
+	SysMemWriter_Reserve(sizeof(struct SysMemHeader) + sizeof(D3D11_QUERY_DESC));
+	SysMemWriter_WriteData(call_n, pQueryDesc, sizeof(D3D11_QUERY_DESC));
+
+	return hr;
 }
 
-static void* __stdcall WDID3D11Device_CreatePredicate(void* _this, void* param1, void* param2)
+static HRESULT __stdcall WDID3D11Device_CreatePredicate(void* _this, D3D11_QUERY_DESC *pPredicateDesc, ID3D11Predicate **ppPredicate)
 {
-	CallWriter_Reserve(8);
-	CallWriter_WriteImmediate4(IncrementCounter());
+	HRESULT hr;
+	uint32_t call_n = IncrementCounter();
+
+	CallWriter_Reserve(8 + 3 * sizeof(void*));
+	CallWriter_WriteImmediate4(call_n);
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CreatePredicate));
-	return ((void* (__stdcall *)(void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CreatePredicate])(_this, param1, param2);
+	CallWriter_WriteImmediate((arg_t)_this);
+	CallWriter_WriteImmediate((arg_t)pPredicateDesc);
+
+	hr = ((HRESULT(__stdcall *)(void*, D3D11_QUERY_DESC*, ID3D11Predicate**))ID3D11DeviceOriginalFuncs[ID3D11Device_CreatePredicate])(_this, pPredicateDesc, ppPredicate);
+
+	CallWriter_WriteImmediate(ppPredicate != NULL ? (arg_t)*ppPredicate : NULL);
+
+	SysMemWriter_Reserve(sizeof(struct SysMemHeader) + sizeof(D3D11_QUERY_DESC));
+	SysMemWriter_WriteData(call_n, pPredicateDesc, sizeof(D3D11_QUERY_DESC));
+
+	return hr;
 }
 
-static void* __stdcall WDID3D11Device_CreateCounter(void* _this, void* param1, void* param2)
+static HRESULT __stdcall WDID3D11Device_CreateCounter(void* _this, D3D11_COUNTER_DESC *pCounterDesc, ID3D11Counter **ppCounter)
 {
-	CallWriter_Reserve(8);
-	CallWriter_WriteImmediate4(IncrementCounter());
+	HRESULT hr;
+	uint32_t call_n = IncrementCounter();
+
+	CallWriter_Reserve(8 + 3 * sizeof(void*));
+	CallWriter_WriteImmediate4(call_n);
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CreateCounter));
-	return ((void* (__stdcall *)(void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateCounter])(_this, param1, param2);
+	CallWriter_WriteImmediate((arg_t)_this);
+	CallWriter_WriteImmediate((arg_t)pCounterDesc);
+
+	hr = ((HRESULT(__stdcall *)(void*, D3D11_COUNTER_DESC*, ID3D11Counter**))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateCounter])(_this, pCounterDesc, ppCounter);
+
+	CallWriter_WriteImmediate(ppCounter != NULL ? (arg_t)*ppCounter : NULL);
+
+	SysMemWriter_Reserve(sizeof(struct SysMemHeader) + sizeof(D3D11_COUNTER_DESC));
+	SysMemWriter_WriteData(call_n, pCounterDesc, sizeof(D3D11_COUNTER_DESC));
+
+	return hr;
 }
 
-static void* __stdcall WDID3D11Device_CreateDeferredContext(void* _this, void* param1, void* param2)
+static HRESULT __stdcall WDID3D11Device_CreateDeferredContext(void* _this, UINT ContextFlags, ID3D11DeviceContext **ppDeferredContext)
 {
-	CallWriter_Reserve(8);
+	HRESULT hr;
+
+	CallWriter_Reserve(8 + 3 * sizeof(void*));
 	CallWriter_WriteImmediate4(IncrementCounter());
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CreateDeferredContext));
-	return ((void* (__stdcall *)(void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateDeferredContext])(_this, param1, param2);
+	CallWriter_WriteImmediate((arg_t)_this);
+	CallWriter_WriteImmediate((arg_t)ContextFlags);
+
+	hr = ((HRESULT(__stdcall *)(void*, UINT, ID3D11DeviceContext**))ID3D11DeviceOriginalFuncs[ID3D11Device_CreateDeferredContext])(_this, ContextFlags, ppDeferredContext);
+
+	CallWriter_WriteImmediate(ppDeferredContext != NULL ? (arg_t)*ppDeferredContext : NULL);
+
+	if(vTablePatched[ID3D11_DeviceContext] == false && ppDeferredContext != NULL){
+		PatchvTable((void**)GetVTable(*ppDeferredContext), ID3D11_DeviceContext, ID3D11DeviceContext__EnumEnd);
+	}
+
+	return hr;
 }
 
-static void* __stdcall WDID3D11Device_OpenSharedResource(void* _this, void* param1, void* param2, void* param3)
+static HRESULT __stdcall WDID3D11Device_OpenSharedResource(void* _this, HANDLE hResource, void* ReturnedInterface, void **ppResource)
 {
-	CallWriter_Reserve(8);
+	HRESULT hr;
+
+	CallWriter_Reserve(8 + 4 * sizeof(void*));
 	CallWriter_WriteImmediate4(IncrementCounter());
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_OpenSharedResource));
-	return ((void* (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_OpenSharedResource])(_this, param1, param2, param3);
+	CallWriter_WriteImmediate((arg_t)_this);
+	CallWriter_WriteImmediate((arg_t)hResource);
+	CallWriter_WriteImmediate((arg_t)ReturnedInterface);
+
+	hr = ((HRESULT(__stdcall *)(void*, HANDLE, void*, void **))ID3D11DeviceOriginalFuncs[ID3D11Device_OpenSharedResource])(_this, hResource, ReturnedInterface, ppResource);
+
+	CallWriter_WriteImmediate(ppResource != NULL ? (arg_t)*ppResource : NULL);
+
+	return hr;
 }
 
-static void* __stdcall WDID3D11Device_CheckFormatSupport(void* _this, void* param1, void* param2)
+static HRESULT __stdcall WDID3D11Device_CheckFormatSupport(void* _this, DXGI_FORMAT Format, UINT *pFormatSupport)
 {
-	CallWriter_Reserve(8);
+	HRESULT hr;
+
+	CallWriter_Reserve(8 + 3 * sizeof(void*));
 	CallWriter_WriteImmediate4(IncrementCounter());
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CheckFormatSupport));
-	return ((void* (__stdcall *)(void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CheckFormatSupport])(_this, param1, param2);
+	CallWriter_WriteImmediate((arg_t)_this);
+	CallWriter_WriteImmediate((arg_t)Format);
+
+	hr = ((HRESULT(__stdcall *)(void*, DXGI_FORMAT, UINT*))ID3D11DeviceOriginalFuncs[ID3D11Device_CheckFormatSupport])(_this, Format, pFormatSupport);
+
+	CallWriter_WriteImmediate((arg_t)*pFormatSupport);
+
+	return hr;
 }
 
-static void* __stdcall WDID3D11Device_CheckMultisampleQualityLevels(void* _this, void* param1, void* param2, void* param3)
+static HRESULT __stdcall WDID3D11Device_CheckMultisampleQualityLevels(void* _this, DXGI_FORMAT Format, UINT SampleCount, UINT *pNumQualityLevels)
 {
-	CallWriter_Reserve(8);
+	HRESULT hr;
+
+	CallWriter_Reserve(8 + 4 * sizeof(void*));
 	CallWriter_WriteImmediate4(IncrementCounter());
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CheckMultisampleQualityLevels));
-	return ((void* (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CheckMultisampleQualityLevels])(_this, param1, param2, param3);
+	CallWriter_WriteImmediate((arg_t)_this);
+	CallWriter_WriteImmediate((arg_t)Format);
+	CallWriter_WriteImmediate((arg_t)SampleCount);
+
+	hr = ((HRESULT(__stdcall *)(void*, DXGI_FORMAT, UINT, UINT*))ID3D11DeviceOriginalFuncs[ID3D11Device_CheckMultisampleQualityLevels])(_this, Format, SampleCount, pNumQualityLevels);
+
+	CallWriter_WriteImmediate((arg_t)*pNumQualityLevels);
+
+	return hr;
 }
 
-static void __stdcall WDID3D11Device_CheckCounterInfo(void* _this, void* param1)
+static void __stdcall WDID3D11Device_CheckCounterInfo(void* _this, D3D11_COUNTER_INFO *pCounterInfo)
 {
-	CallWriter_Reserve(8);
+	CallWriter_Reserve(8 + 2 * sizeof(void*));
 	CallWriter_WriteImmediate4(IncrementCounter());
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CheckCounterInfo));
-	((void(__stdcall *)(void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CheckCounterInfo])(_this, param1);
-}
+	CallWriter_WriteImmediate((arg_t)_this);
+	CallWriter_WriteImmediate((arg_t)pCounterInfo);
 
-static void* __stdcall WDID3D11Device_CheckCounter(void* _this, void* param1, void* param2, void* param3, void* param4, void* param5, void* param6, void* param7, void* param8, void* param9)
+	((void(__stdcall *)(void*, D3D11_COUNTER_INFO*))ID3D11DeviceOriginalFuncs[ID3D11Device_CheckCounterInfo])(_this, pCounterInfo);
+}
+// TODO: TRACE_DATA
+static HRESULT __stdcall WDID3D11Device_CheckCounter(void* _this, void* param1, void* param2, void* param3, void* param4, void* param5, void* param6, void* param7, void* param8, void* param9)
 {
 	CallWriter_Reserve(8);
 	CallWriter_WriteImmediate4(IncrementCounter());
-	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CheckCounter));
-	return ((void* (__stdcall *)(void*, void*, void*, void*, void*, void*, void*, void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CheckCounter])(_this, param1, param2, param3, param4, param5, param6, param7, param8, param9);
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_Device, ID3D11Device_CheckCounter));
+	return ((HRESULT (__stdcall *)(void*, void*, void*, void*, void*, void*, void*, void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CheckCounter])(_this, param1, param2, param3, param4, param5, param6, param7, param8, param9);
 }
-
-static void* __stdcall WDID3D11Device_CheckFeatureSupport(void* _this, void* param1, void* param2, void* param3)
+// TODO: TRACE_DATA
+static HRESULT __stdcall WDID3D11Device_CheckFeatureSupport(void* _this, void* param1, void* param2, void* param3)
 {
 	//Log("Calling ID3D11Device::CheckFeatureSupport");
 	CallWriter_Reserve(8);
 	CallWriter_WriteImmediate4(IncrementCounter());
-	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_CheckFeatureSupport));
-	return ((void* (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CheckFeatureSupport])(_this, param1, param2, param3);
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_Device, ID3D11Device_CheckFeatureSupport));
+	return ((HRESULT (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_CheckFeatureSupport])(_this, param1, param2, param3);
 }
 
-static void* __stdcall WDID3D11Device_GetPrivateData(void* _this, void* param1, void* param2, void* param3)
+static HRESULT __stdcall WDID3D11Device_GetPrivateData(void* _this, void* guid, UINT *pDataSize, void *pData)
 {
-	CallWriter_Reserve(8);
+	HRESULT hr;
+
+	CallWriter_Reserve(8 + 5 * sizeof(void*)); // because pDataSize is in and out
 	CallWriter_WriteImmediate4(IncrementCounter());
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_GetPrivateData));
-	return ((void* (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_GetPrivateData])(_this, param1, param2, param3);
-}
+	CallWriter_WriteImmediate((arg_t)_this);
+	CallWriter_WriteImmediate((arg_t)guid);
+	CallWriter_WriteImmediate((arg_t)pDataSize);
+	CallWriter_WriteImmediate((arg_t)pData);
 
-static void* __stdcall WDID3D11Device_SetPrivateData(void* _this, void* param1, void* param2, void* param3)
+	hr = ((HRESULT(__stdcall *)(void*, void*, UINT*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_GetPrivateData])(_this, guid, pDataSize, pData);
+
+	CallWriter_WriteImmediate((arg_t)*pDataSize);
+
+	return hr;
+}
+// TODO: DATA_TRACE
+static HRESULT __stdcall WDID3D11Device_SetPrivateData(void* _this, void* param1, void* param2, void* param3)
 {
 	CallWriter_Reserve(8);
 	CallWriter_WriteImmediate4(IncrementCounter());
-	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_SetPrivateData));
-	return ((void* (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_SetPrivateData])(_this, param1, param2, param3);
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_Device, ID3D11Device_SetPrivateData));
+	return ((HRESULT (__stdcall *)(void*, void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_SetPrivateData])(_this, param1, param2, param3);
 }
-
-static void* __stdcall WDID3D11Device_SetPrivateDataInterface(void* _this, void* param1, void* param2)
+// TODO: DATA_TRACE
+static HRESULT __stdcall WDID3D11Device_SetPrivateDataInterface(void* _this, void* param1, void* param2)
 {
 	CallWriter_Reserve(8);
 	CallWriter_WriteImmediate4(IncrementCounter());
-	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_SetPrivateDataInterface));
-	return ((void* (__stdcall *)(void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_SetPrivateDataInterface])(_this, param1, param2);
+	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_SIMPLE, ID3D11_Device, ID3D11Device_SetPrivateDataInterface));
+	return ((HRESULT (__stdcall *)(void*, void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_SetPrivateDataInterface])(_this, param1, param2);
 }
-
-static void* __stdcall WDID3D11Device_GetFeatureLevel(void* _this)
+// TODO: DATA_TRACE
+static HRESULT __stdcall WDID3D11Device_GetFeatureLevel(void* _this)
 {
 	CallWriter_Reserve(8);
 	CallWriter_WriteImmediate4(IncrementCounter());
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_GetFeatureLevel));
-	return ((void* (__stdcall *)(void*))ID3D11DeviceOriginalFuncs[ID3D11Device_GetFeatureLevel])(_this);
+	return ((HRESULT (__stdcall *)(void*))ID3D11DeviceOriginalFuncs[ID3D11Device_GetFeatureLevel])(_this);
 }
-
-static void* __stdcall WDID3D11Device_GetCreationFlags(void* _this)
+// TODO: DATA_TRACE
+static HRESULT __stdcall WDID3D11Device_GetCreationFlags(void* _this)
 {
 	CallWriter_Reserve(8);
 	CallWriter_WriteImmediate4(IncrementCounter());
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_GetCreationFlags));
-	return ((void* (__stdcall *)(void*))ID3D11DeviceOriginalFuncs[ID3D11Device_GetCreationFlags])(_this);
+	return ((HRESULT (__stdcall *)(void*))ID3D11DeviceOriginalFuncs[ID3D11Device_GetCreationFlags])(_this);
 }
 
-static void* __stdcall WDID3D11Device_GetDeviceRemovedReason(void* _this)
+static HRESULT __stdcall WDID3D11Device_GetDeviceRemovedReason(void* _this)
 {
-	CallWriter_Reserve(8);
+	HRESULT hr;
+
+	CallWriter_Reserve(8 + 2 * sizeof(void*)); // 1 for return value
 	CallWriter_WriteImmediate4(IncrementCounter());
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_GetDeviceRemovedReason));
-	return ((void* (__stdcall *)(void*))ID3D11DeviceOriginalFuncs[ID3D11Device_GetDeviceRemovedReason])(_this);
+	CallWriter_WriteImmediate((arg_t)_this);
+
+	hr = ((HRESULT(__stdcall *)(void*))ID3D11DeviceOriginalFuncs[ID3D11Device_GetDeviceRemovedReason])(_this);
+
+	CallWriter_WriteImmediate((arg_t)hr);
+
+	return hr;
 }
 
-static void __stdcall WDID3D11Device_GetImmediateContext(void* _this, void* param1)
+static void __stdcall WDID3D11Device_GetImmediateContext(void* _this, ID3D11DeviceContext **ppImmediateContext)
 {
 	//Log("Calling GetImmediateContext");
-	CallWriter_Reserve(8);
+	CallWriter_Reserve(8 + sizeof(void*));
 	CallWriter_WriteImmediate4(IncrementCounter());
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_GetImmediateContext));
-	((void(__stdcall *)(void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_GetImmediateContext])(_this, param1);
+	((void(__stdcall *)(void*, ID3D11DeviceContext**))ID3D11DeviceOriginalFuncs[ID3D11Device_GetImmediateContext])(_this, ppImmediateContext);
+
+	CallWriter_WriteImmediate((arg_t)*ppImmediateContext);
 
 	if(vTablePatched[ID3D11_DeviceContext] == false){
-		PatchvTable((void**)GetVTable(*(void**)param1), ID3D11_DeviceContext, ID3D11DeviceContext__EnumEnd);
+		PatchvTable((void**)GetVTable(*ppImmediateContext), ID3D11_DeviceContext, ID3D11DeviceContext__EnumEnd);
 	}
 }
-
-static void* __stdcall WDID3D11Device_SetExceptionMode(void* _this, void* param1)
+// TODO: DATA_TRACE
+static HRESULT __stdcall WDID3D11Device_SetExceptionMode(void* _this, void* param1)
 {
 	CallWriter_Reserve(8);
 	CallWriter_WriteImmediate4(IncrementCounter());
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_SetExceptionMode));
-	return ((void* (__stdcall *)(void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_SetExceptionMode])(_this, param1);
+	return ((HRESULT (__stdcall *)(void*, void*))ID3D11DeviceOriginalFuncs[ID3D11Device_SetExceptionMode])(_this, param1);
 }
-
-static void* __stdcall WDID3D11Device_GetExceptionMode(void* _this)
+// TODO: DATA_TRACE
+static HRESULT __stdcall WDID3D11Device_GetExceptionMode(void* _this)
 {
 	CallWriter_Reserve(8);
 	CallWriter_WriteImmediate4(IncrementCounter());
 	CallWriter_WriteImmediate4(MAKE_FUNC_ID(TRACE_DATA, ID3D11_Device, ID3D11Device_GetExceptionMode));
-	return ((void* (__stdcall *)(void*))ID3D11DeviceOriginalFuncs[ID3D11Device_GetExceptionMode])(_this);
+	return ((HRESULT (__stdcall *)(void*))ID3D11DeviceOriginalFuncs[ID3D11Device_GetExceptionMode])(_this);
 }
 
 

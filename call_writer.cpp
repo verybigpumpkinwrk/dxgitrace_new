@@ -13,6 +13,7 @@ static volatile bool alive_flag = false;
 
 uint32_t CallWriter_OpenFile(char* filename)
 {
+	Log("Open file: %s", filename);
 	fp = fopen(filename, "wb");
 	if(fp == 0){
 		Log("dxgitrace_new error: can't open file for writing.");
@@ -45,7 +46,8 @@ uint32_t CallWriter_Flush(void)
 		Log("Waiting call buf write.");
 		Sleep(0);
 	}
-	CallWriter.Bufs[new_n].locked = true;
+	CallWriter.Bufs[CallWriter.curr_n].locked = true;
+	CallWriter.Bufs[CallWriter.curr_n].pData = CallWriter.pData;
 
 	CallWriter.curr_n = new_n;
 	CallWriter.pBase = CallWriter.Bufs[new_n].pBase;
@@ -63,6 +65,7 @@ uint32_t __stdcall CallWriter_ThreadFunc(void* pArgList)
 	while(close_flag == false){
 		uint32_t buf_num = (!CallWriter.curr_n) & 0x1;
 
+		Log("CallWriter writing %u bytes", CallWriter.Bufs[buf_num].pData - CallWriter.Bufs[buf_num].pBase);
 		fwrite(CallWriter.Bufs[buf_num].pBase, 1, CallWriter.Bufs[buf_num].pData - CallWriter.Bufs[buf_num].pBase, fp);
 		CallWriter.Bufs[buf_num].pData = CallWriter.Bufs[buf_num].pBase;
 		CallWriter.Bufs[buf_num].locked = false;

@@ -15,6 +15,7 @@ static volatile bool alive_flag = false;
 
 uint32_t SysMemWriter_OpenFile(char* filename)
 {
+	Log("Open file: %s", filename);
 	fp = fopen(filename, "wb");
 	if(fp == 0){
 		Log("dxgitrace_new error: can't open file for writing.");
@@ -48,6 +49,7 @@ uint32_t SysMemWriter_Flush(void)
 		Sleep(0);
 	}
 	SysMemWriter.Bufs[SysMemWriter.curr_n].locked = true;
+	SysMemWriter.Bufs[SysMemWriter.curr_n].pData = SysMemWriter.pData;
 
 	SysMemWriter.curr_n = new_n;
 	SysMemWriter.pBase = SysMemWriter.Bufs[new_n].pBase;
@@ -65,6 +67,7 @@ uint32_t __stdcall SysMemWriter_ThreadFunc(void* pArgList)
 	while(close_flag == false){
 		uint32_t buf_num = (!SysMemWriter.curr_n) & 0x1;
 
+		Log("SysMemWriter writing %u bytes", SysMemWriter.Bufs[buf_num].pData - SysMemWriter.Bufs[buf_num].pBase);
 		fwrite(SysMemWriter.Bufs[buf_num].pBase, 1, SysMemWriter.Bufs[buf_num].pData - SysMemWriter.Bufs[buf_num].pBase, fp);
 		SysMemWriter.Bufs[buf_num].pData = SysMemWriter.Bufs[buf_num].pBase;
 		SysMemWriter.Bufs[buf_num].locked = false;
@@ -95,6 +98,7 @@ void SysMemWriter_WriteBigData(uint32_t call_n, void* pData, uint32_t size)
 		Header.addr = pData;
 		Header.size = size;
 
+		Log("SysMemWriter direct writing %u bytes", sizeof(struct SysMemHeader) + size);
 		fwrite(&Header, 1, sizeof(struct SysMemHeader), fp);
 		fwrite(pData, 1, size, fp);
 	}
@@ -109,7 +113,7 @@ uint32_t SysMemWriter_CloseFile(void)
 		Sleep(100);
 		Log("SysMemWriter waiting.");
 	}
-
+	Log("SysMemWriter finishing with %u bytes", SysMemWriter.pData - SysMemWriter.pBase);
 	fwrite(SysMemWriter.pBase, 1, SysMemWriter.pData - SysMemWriter.pBase, fp);
 
 	free(SysMemWriter.Bufs[0].pBase);

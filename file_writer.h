@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <assert.h>
 
-#define CALL_WRITER_MAX_BUF_SIZE (1024 * 1024)
+#define CALL_WRITER_MAX_BUF_SIZE (2 * 1024 * 1024)
 #define SYSMEM_WRITER_MAX_BUF_SIZE (8 * 1024 * 1024)
 
 #ifdef WIN32
